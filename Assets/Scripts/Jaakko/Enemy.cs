@@ -39,18 +39,18 @@ namespace AG3958
             _currentHealth = _maxHealth;
         }
 
-        private void OnCollisionEnter2D(Collision2D coll)
+        private void OnCollisionEnter2D(Collision2D other)
         {
-            if (coll.collider.CompareTag("Speed")) { Kill(true); }
-            if (coll.collider.CompareTag("Player"))
+            if (other.collider.CompareTag("Speed")) { Kill(true); }
+            if (other.collider.CompareTag("Player"))
             {
-                PlayerController pcon = coll.gameObject.GetComponent<PlayerController>();
-                PlayerCore pcor = coll.gameObject.GetComponentInParent<PlayerCore>();
+                PlayerController pcon = other.gameObject.GetComponent<PlayerController>();
+                PlayerCore pcor = other.gameObject.GetComponentInParent<PlayerCore>();
                 if (_doesContactDamage && !pcor.IsInvincible)
                 {
                     if (_knockbackEnabled)
                     {
-                        Vector2 kbVector = (Vector2)coll.transform.position - (Vector2)transform.position;
+                        Vector2 kbVector = (Vector2)other.transform.position - (Vector2)transform.position;
                         kbVector.Scale(_knockbackForceMultiplier);
                         pcon.Launch(kbVector * _knockbackStrength, true);
                     }
@@ -63,15 +63,15 @@ namespace AG3958
         {
             _currentHealth -= damage;
             if (_currentHealth <= 0) { Kill(false); }
-            else { } // enemy-specific damaged vfx/sfx
+            else { } // TODO: enemy-specific damaged vfx/sfx
         }
 
-        private void Kill(bool instant)
+        private void Kill(bool isInstant)
         {
             int RNGResult = Random.Range(0, 100);
-            if (instant)
+            if (isInstant)
             { 
-                // instant (speed) kill vfx/sfx
+                // TODO: instant (speed) kill vfx/sfx
                 if (RNGResult < _healthDropChance)
                 {
                     PlayerCore.HealthChangeEvent?.Invoke(_healthDrop.CValue, false);
@@ -79,7 +79,7 @@ namespace AG3958
             }
             else 
             {
-                // normal kill vfx/sfx
+                // TODO: normal kill vfx/sfx
                 if (RNGResult < _healthDropChance)
                 {
                     Instantiate(_healthDropPrefab, transform.position, Quaternion.identity);

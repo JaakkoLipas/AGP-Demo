@@ -84,5 +84,15 @@ namespace AG3958
         {
             _winText.SetActive(true);
         }
+
+        private void OnDestroy()
+        {
+            PlayerCore.PointChangeEvent -= UpdatePoints;
+            PlayerCore.HealthChangeEvent -= UpdateHealth;
+            PlayerCore.ManaChangeEvent -= UpdateMana;
+            PlayerCore.PlayerDeathEvent -= OnPlayerDeath;
+            PlayerCore.PlayerRespawnEvent -= OnPlayerRespawn;
+            GameStateManager.WinGameEvent -= OnWinGame;
+        }
     }
 }

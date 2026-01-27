@@ -28,7 +28,7 @@ namespace AG3958
 
         public int CompareTo(Checkpoint other)
         {
-            return string.Compare(this._checkpointID, other._checkpointID);
+            return string.Compare(this._checkpointID, other.CheckpointID);
         }
     }
 

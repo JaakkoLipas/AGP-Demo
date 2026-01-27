@@ -62,7 +62,7 @@ namespace AG3958
 
         //private void OnDestroy()
         //{
-        //    // instantiate vfx/sfx for generic projectile destruction
+        // TODO: instantiate vfx/sfx for generic projectile destruction
         //}
     } 
 }
