@@ -14,11 +14,6 @@ namespace AG3958
         {
             _checkpointList = FindObjectsByType<Checkpoint>(FindObjectsSortMode.None);
             Array.Sort(_checkpointList);
-            //foreach (Checkpoint checkpoint in _checkpointList) Debug.Log(checkpoint);
-            _playerCore = FindFirstObjectByType<PlayerCore>();
         }
-
-
     }
-
 }

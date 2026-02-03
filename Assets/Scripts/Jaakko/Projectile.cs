@@ -1,3 +1,4 @@
+using Unity.Cinemachine;
 using UnityEngine;
 
 namespace AG3958
@@ -20,6 +21,10 @@ namespace AG3958
         [Tooltip("Whether the impact resets momentum before applying knockback")]
         [SerializeField] private bool _isHeavyKnockback;
 
+        [Header("Tag Compares")]
+        [SerializeField, TagField] private string _enemyTag;
+        [SerializeField, TagField] private string _playerTag;
+
         private void Awake()
         {
             _knockbackForceMultiplier = new Vector2(_knockbackStrength, _knockbackStrength);
@@ -28,7 +33,7 @@ namespace AG3958
 
         private void OnCollisionEnter2D(Collision2D coll)
         {
-            if (coll.collider.CompareTag("Enemy") && ProjectileDamageType != DamageType.Enemy)
+            if (coll.collider.CompareTag(_enemyTag) && ProjectileDamageType != DamageType.Enemy)
             {
                 Enemy e = coll.gameObject.GetComponent<Enemy>();
                 if (e.EffectiveDamageTypes.Contains(ProjectileDamageType))
@@ -41,7 +46,7 @@ namespace AG3958
                     // instantiate vfx/sfx for ineffective projectile impact
                 }
             }
-            if (coll.collider.CompareTag("Player") && ProjectileDamageType == DamageType.Enemy)
+            if (coll.collider.CompareTag(_playerTag) && ProjectileDamageType == DamageType.Enemy)
             {
                 PlayerController pcon = coll.gameObject.GetComponent<PlayerController>();
                 PlayerCore pcor = coll.gameObject.GetComponentInParent<PlayerCore>();

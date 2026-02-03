@@ -22,7 +22,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4076310636046683645, guid: 4a4a93c96f5d2144eaee81494f82f48a, type: 3}
       propertyPath: _lifetime
-      value: 10
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 4076310636046683645, guid: 4a4a93c96f5d2144eaee81494f82f48a, type: 3}
       propertyPath: ProjectileDamageType

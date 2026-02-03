@@ -1,5 +1,6 @@
 using UnityEngine;
 using EditorAttributes;
+using Unity.Cinemachine;
 
 namespace AG3958
 {
@@ -8,6 +9,8 @@ namespace AG3958
     {
         [SerializeField] private GameObject _editorConnectedInteractable;
         private IPhysicsInteractable _connectedInteractable;
+        [Tooltip("Can this button be triggered by projectiles?")]
+        [SerializeField] private bool _projectileUsable = true;
         [SerializeField] private bool _isOneShot;
         public bool IsOneShot { get { return _isOneShot; } }
         [SerializeField] private bool _isEnabled;
@@ -15,6 +18,9 @@ namespace AG3958
         [SerializeField] private Sprite _buttonSpriteDisabled;
         private SpriteRenderer _buttonSpriteR;
 
+        [Header("Tag Compares")]
+        [SerializeField, TagField] private string _playerTag;
+        [SerializeField, TagField] private string _playerProjTag;
 
         private void Awake()
         {
@@ -28,7 +34,7 @@ namespace AG3958
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
-            if (_isEnabled && (collision.CompareTag("Player") || collision.CompareTag("PlayerProjectile")))
+            if (_isEnabled && (collision.CompareTag("Player") || (_projectileUsable && collision.CompareTag("PlayerProjectile"))))
             {
                 _connectedInteractable.Interact();
                 _isEnabled = false;

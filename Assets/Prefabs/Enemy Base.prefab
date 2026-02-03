@@ -66,6 +66,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &581868155212143225
 SpriteRenderer:
+  serializedVersion: 2
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -84,6 +85,8 @@ SpriteRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -105,9 +108,11 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 2053996873
-  m_SortingLayer: 2
+  m_SortingLayer: 0
   m_SortingOrder: 1
+  m_MaskInteraction: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 75f5f34dc1b5347e0b8351032682f224, type: 3}
   m_Color: {r: 0.38771167, g: 0, b: 0.5754717, a: 1}
   m_FlipX: 0
@@ -117,7 +122,6 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &4316994637287560991
 GameObject:
@@ -245,13 +249,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _maxHealth: 2
   _scoreValue: 1
+  _isBoss: 0
   _doesContactDamage: 1
   _contactDamage: 10
   _contactInvokesIFrames: 1
   _knockbackEnabled: 1
   _knockbackStrength: 2
   EffectiveDamageTypes: 000000000100000002000000
+  _destroyDelay: 0
   _healthDropChance: 10
+  _healthDropCount: 1
   _healthDropPrefab: {fileID: 4661073330422892435, guid: 669631c20a44b8b428817f829caf2bb0, type: 3}
   _normalDeathParticles: {fileID: 0}
   _instantDeathParticles: {fileID: 0}
+  _speedTag: Speed
+  _playerTag: Player

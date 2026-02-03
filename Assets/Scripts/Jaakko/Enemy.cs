@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using Unity.Cinemachine;
 
 namespace AG3958
 {
@@ -36,6 +37,10 @@ namespace AG3958
         [SerializeField] private GameObject _instantDeathParticles;
         private bool _isDying = false;
         public bool IsDying { get { return _isDying; } }
+
+        [Header("Tag Compares")]
+        [SerializeField, TagField] private string _speedTag;
+        [SerializeField, TagField] private string _playerTag;
 
         private void Awake()
         {

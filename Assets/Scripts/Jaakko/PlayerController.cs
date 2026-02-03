@@ -22,7 +22,6 @@ namespace AG3958
         private Vector2 _edgeOffset;
         private Vector2 _leftEdge;
         private Vector2 _rightEdge;
-        private SpriteRenderer _playerSprite;
         private PlayerCore _playerCore;
         private Transform _transform;
 
@@ -68,6 +67,7 @@ namespace AG3958
         public bool EruptionReady {  get { return _eruptionReady; } }
         public bool EruptionGraceActive { get { return _eruptionGraceActive; } }
 
+        [SerializeField] private SpriteRenderer _playerSprite;
 
         // Editor parameters
         [Header("Input")]
@@ -139,7 +139,7 @@ namespace AG3958
         private float _meleeCooldownTimer = 0.0f;
         private float _fireCooldownTimer = 0.0f;
         private float _chargeTimer = 0.0f;
-        private float _boosterTimer = 0.0f;
+        private float _boosterChargeTimer = 0.0f;
         private float _boosterGrace = 0.0f;
         private float _eruptionChargeTimer = 0.0f;
         private float _eruptionGrace = 0.0f;
@@ -163,7 +163,6 @@ namespace AG3958
             UpdateOffsets();
             _leftEdge = (Vector2)_transform.position - _edgeOffset;
             _rightEdge = (Vector2)_transform.position + _edgeOffset;
-            _playerSprite = GetComponent<SpriteRenderer>();
             _playerColor = _playerSprite.color;
             _playerInvulnerableColor = new Color(_playerColor.r, _playerColor.g, _playerColor.b, 0.5f);
             _boosterAuraColor = new Color(_boosterActiveColor.r, _boosterActiveColor.g, _boosterActiveColor.b, 0.3f);
@@ -257,10 +256,10 @@ namespace AG3958
                     || (_isGrounded && _rb.linearVelocityX <= _maximumSpeed * -_boosterVelocityThreshold)
                     && !_isCrouched)
                 {
-                    _boosterTimer += Time.deltaTime;
+                    _boosterChargeTimer += Time.deltaTime;
                 }
-                else { _boosterTimer = 0.0f; }
-                if (!_boosterActive && _boosterTimer >= _boosterActivationTime)
+                else { _boosterChargeTimer = 0.0f; }
+                if (!_boosterActive && _boosterChargeTimer >= _boosterActivationTime)
                 {
                     ActivateBooster();
                 }
