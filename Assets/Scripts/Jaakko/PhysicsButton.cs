@@ -34,7 +34,7 @@ namespace AG3958
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
-            if (_isEnabled && (collision.CompareTag("Player") || (_projectileUsable && collision.CompareTag("PlayerProjectile"))))
+            if (_isEnabled && (collision.CompareTag(_playerTag) || (_projectileUsable && collision.CompareTag(_playerProjTag))))
             {
                 _connectedInteractable.Interact();
                 _isEnabled = false;
