@@ -106,6 +106,8 @@ namespace AG3958
         [SerializeField] private float _boosterImpulseSpeed;
         [Tooltip("Maximum speed with Volcanic Surge active")]
         [SerializeField] private float _boosterSpeed;
+        [Tooltip("Percentage of default maximum movement speed for Volcanic Surge to start activating")]
+        [SerializeField] private float _boosterVelocityThreshold = 0.9f;
         [SerializeField] private float _boosterActivationTime;
         [SerializeField] private float _boosterGraceTime;
         [SerializeField] private Color _boosterActiveColor;
@@ -251,7 +253,8 @@ namespace AG3958
 
             if (_playerCore.HasSpeedBooster)
             {
-                if ((_isGrounded && _rb.linearVelocityX >= _maximumSpeed * 0.9f) || (_isGrounded && _rb.linearVelocityX <= _maximumSpeed * -0.9f)
+                if ((_isGrounded && _rb.linearVelocityX >= _maximumSpeed * _boosterVelocityThreshold) 
+                    || (_isGrounded && _rb.linearVelocityX <= _maximumSpeed * -_boosterVelocityThreshold)
                     && !_isCrouched)
                 {
                     _boosterTimer += Time.deltaTime;

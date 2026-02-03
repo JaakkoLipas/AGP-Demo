@@ -10,6 +10,7 @@ namespace AG3958
         [SerializeField] private float _maxHealth = 1.0f;
         private float _currentHealth;
         [SerializeField] private float _scoreValue = 1.0f;
+        [SerializeField] private bool _isBoss = false;
 
         [Header("Combat")]
         [SerializeField] private bool _doesContactDamage = true;
@@ -23,8 +24,12 @@ namespace AG3958
         public List<DamageType> EffectiveDamageTypes;
 
         [Header("On Death")]
+        [Tooltip("Delay to destroy the object, for cinematic purposes")]
+        [SerializeField] private float _destroyDelay = 0.0f;
         [Tooltip("Base perccentage chance for this enemy to drop health on death")]
         [SerializeField] private int _healthDropChance = 10;
+        [Tooltip("Number of times to run the health drop RNG on this enemy's death")]
+        [SerializeField] private int _healthDropCount = 1;
         [SerializeField] private GameObject _healthDropPrefab;
         private HealthCollectable _healthDrop;
         [SerializeField] private GameObject _normalDeathParticles;
@@ -41,7 +46,11 @@ namespace AG3958
 
         private void OnCollisionEnter2D(Collision2D other)
         {
-            if (other.collider.CompareTag("Speed")) { Kill(true); }
+            if (other.collider.CompareTag("Speed"))
+            {
+                if (!_isBoss) Kill(true);
+                else TakeDamage(_maxHealth * 0.5f);
+            }
             if (other.collider.CompareTag("Player"))
             {
                 PlayerController pcon = other.gameObject.GetComponent<PlayerController>();
@@ -68,21 +77,31 @@ namespace AG3958
 
         private void Kill(bool isInstant)
         {
-            int RNGResult = Random.Range(0, 100);
+            int RNGResult;
             if (isInstant)
-            { 
+            {
                 // TODO: instant (speed) kill vfx/sfx
-                if (RNGResult < _healthDropChance)
+                for (int i = 0; i < _healthDropCount; i++)
                 {
-                    PlayerCore.HealthChangeEvent?.Invoke(_healthDrop.CValue, false);
+                    RNGResult = Random.Range(0, 100);
+                    if (RNGResult < _healthDropChance)
+                    {
+                        PlayerCore.HealthChangeEvent?.Invoke(_healthDrop.CValue, false);
+                    }
                 }
             }
             else 
             {
+                Vector2 pickupSpawn = new Vector2();
                 // TODO: normal kill vfx/sfx
-                if (RNGResult < _healthDropChance)
+                for (int i = 0; i < _healthDropCount; i++)
                 {
-                    Instantiate(_healthDropPrefab, transform.position, Quaternion.identity);
+                    RNGResult = Random.Range(0, 100);
+                    if (RNGResult < _healthDropChance)
+                    {
+                        pickupSpawn = Random.insideUnitCircle * ((transform.lossyScale.x + transform.lossyScale.y) / 2);
+                        Instantiate(_healthDropPrefab, pickupSpawn, Quaternion.identity);
+                    }
                 }
             }
             PlayerCore.PointChangeEvent?.Invoke(_scoreValue);

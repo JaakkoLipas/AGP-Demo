@@ -1,16 +1,22 @@
 using System;
 using UnityEngine;
+using Unity.Cinemachine;
+using EditorAttributes;
 
 namespace AG3958
 {
     public class Checkpoint : MonoBehaviour, IComparable<Checkpoint>
     {
-        [SerializeField] private string _checkpointID;
+        [SerializeField, Validate("Checkpoint ID cannot be empty", nameof(CheckEmpty))] private string _checkpointID;
         public string CheckpointID { get { return _checkpointID; } }
+
+        private bool CheckEmpty() => _checkpointID == string.Empty;
+
         private Vector2 _checkpointTarget;
         public Vector2 CheckpointTarget { get { return _checkpointTarget; } }
 
         private PlayerCore _playerCore;
+        [SerializeField, TagField] private string _playerTag;
 
         private void Start()
         {
@@ -20,7 +26,7 @@ namespace AG3958
 
         private void OnTriggerEnter2D(Collider2D other)
         {
-            if (other.CompareTag("Player") && _playerCore.PreviousCheckpoint != this)
+            if (other.CompareTag(_playerTag) && _playerCore.PreviousCheckpoint != this)
             {
                 _playerCore.SetCheckpoint(this);
             }

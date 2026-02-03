@@ -57,6 +57,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1469154349723050883, guid: 9eb36ec047901aa4e854d121083240c8, type: 3}
+      propertyPath: _isBoss
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1469154349723050883, guid: 9eb36ec047901aa4e854d121083240c8, type: 3}
       propertyPath: _maxHealth
       value: 50
       objectReference: {fileID: 0}
