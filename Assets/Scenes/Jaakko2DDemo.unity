@@ -1769,7 +1769,7 @@ Camera:
     x: 0
     y: 0
     width: 1
-    height: 1
+    height: 0.9994834
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
@@ -102994,8 +102994,8 @@ TilemapRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 1068925063
-  m_SortingLayer: 1
+  m_SortingLayerID: -1303246481
+  m_SortingLayer: 3
   m_SortingOrder: 10
   m_MaskInteraction: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
@@ -104358,7 +104358,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1888759671971022250, guid: 3af902266bb8d24429cd852fa28b997f, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4095130472124034049, guid: 3af902266bb8d24429cd852fa28b997f, type: 3}
       propertyPath: m_Pivot.x

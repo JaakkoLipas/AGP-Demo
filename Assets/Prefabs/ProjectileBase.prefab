@@ -176,5 +176,5 @@ MonoBehaviour:
   _destroyedByCollision: 1
   _knockbackStrength: 0
   _isHeavyKnockback: 0
-  _enemyTag: Player
-  _playerTag: Enemy
+  _enemyTag: Enemy
+  _playerTag: Player

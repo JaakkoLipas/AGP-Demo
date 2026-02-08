@@ -51,12 +51,12 @@ namespace AG3958
 
         private void OnCollisionEnter2D(Collision2D other)
         {
-            if (other.collider.CompareTag("Speed"))
+            if (other.collider.CompareTag(_speedTag))
             {
                 if (!_isBoss) Kill(true);
                 else TakeDamage(_maxHealth * 0.5f);
             }
-            if (other.collider.CompareTag("Player"))
+            if (other.collider.CompareTag(_playerTag))
             {
                 PlayerController pcon = other.gameObject.GetComponent<PlayerController>();
                 PlayerCore pcor = other.gameObject.GetComponentInParent<PlayerCore>();

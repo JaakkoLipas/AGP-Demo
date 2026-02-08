@@ -25,8 +25,16 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4076310636046683645, guid: 4a4a93c96f5d2144eaee81494f82f48a, type: 3}
+      propertyPath: _enemyTag
+      value: Enemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 4076310636046683645, guid: 4a4a93c96f5d2144eaee81494f82f48a, type: 3}
       propertyPath: _lifetime
       value: 0.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 4076310636046683645, guid: 4a4a93c96f5d2144eaee81494f82f48a, type: 3}
+      propertyPath: _playerTag
+      value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 4076310636046683645, guid: 4a4a93c96f5d2144eaee81494f82f48a, type: 3}
       propertyPath: _knockbackStrength
@@ -126,7 +134,7 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 5507316010820968361, guid: 4a4a93c96f5d2144eaee81494f82f48a, type: 3}
-      insertIndex: -1
+      insertIndex: 2
       addedObject: {fileID: 2730309580583490452}
   m_SourcePrefab: {fileID: 100100000, guid: 4a4a93c96f5d2144eaee81494f82f48a, type: 3}
 --- !u!1 &5345780579720366798 stripped

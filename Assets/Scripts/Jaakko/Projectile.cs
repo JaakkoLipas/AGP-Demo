@@ -38,12 +38,12 @@ namespace AG3958
                 Enemy e = coll.gameObject.GetComponent<Enemy>();
                 if (e.EffectiveDamageTypes.Contains(ProjectileDamageType))
                 { 
-                    // instantiate vfx/sfx for effective projectile impact
+                    // TODO: instantiate vfx/sfx for effective projectile impact
                     e.TakeDamage(_damage);
                 }
                 else 
                 { 
-                    // instantiate vfx/sfx for ineffective projectile impact
+                    // TODO: instantiate vfx/sfx for ineffective projectile impact
                 }
             }
             if (coll.collider.CompareTag(_playerTag) && ProjectileDamageType == DamageType.Enemy)
