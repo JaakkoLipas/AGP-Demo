@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace AG3958
+namespace AoV.System
 {
     public class SceneLoader : MonoBehaviour
     {

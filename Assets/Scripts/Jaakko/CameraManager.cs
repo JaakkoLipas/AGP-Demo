@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace AG3958
+namespace AoV.System
 {
     public class CameraManager : MonoBehaviour
     {
@@ -13,7 +13,7 @@ namespace AG3958
         {
             if (_playerCollider == null)
             {
-                _playerCollider = FindObjectsByType<PlayerController>(FindObjectsSortMode.None)[0].transform;
+                _playerCollider = FindObjectsByType<Player.PlayerController>(FindObjectsSortMode.None)[0].transform;
             }
             _transform = transform;
             _zOffset = new Vector3(0f, 0f, -1f);

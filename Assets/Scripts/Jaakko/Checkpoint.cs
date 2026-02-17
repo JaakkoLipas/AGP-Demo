@@ -2,8 +2,9 @@ using System;
 using UnityEngine;
 using Unity.Cinemachine;
 using EditorAttributes;
+using AoV.Player;
 
-namespace AG3958
+namespace AoV.System
 {
     public class Checkpoint : MonoBehaviour, IComparable<Checkpoint>
     {

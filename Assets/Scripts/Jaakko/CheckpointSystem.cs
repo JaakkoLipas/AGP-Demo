@@ -1,7 +1,8 @@
 using System;
 using UnityEngine;
+using AoV.Player;
 
-namespace AG3958
+namespace AoV.System
 {
     public class CheckpointSystem : MonoBehaviour
     {

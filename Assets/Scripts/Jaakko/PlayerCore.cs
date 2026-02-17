@@ -3,8 +3,9 @@ using EditorAttributes;
 using System;
 using System.Collections;
 using UnityEngine.SceneManagement;
+using AoV.System;
 
-namespace AG3958
+namespace AoV.Player
 {
     [Serializable]
     public class PlayerCore : MonoBehaviour

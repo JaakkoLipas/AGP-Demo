@@ -1,9 +1,11 @@
 using UnityEngine;
 using UnityEditor;
+using AoV.Player;
+using AoV.System;
 
 #if UNITY_EDITOR
 
-namespace AG3958
+namespace AoV.Editor
 {
     public class EditorTPToCheckpoint : EditorWindow
     {

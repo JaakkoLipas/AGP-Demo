@@ -1,7 +1,8 @@
 using Unity.Cinemachine;
 using UnityEngine;
+using AoV.Player;
 
-namespace AG3958
+namespace AoV.Gameplay
 {
     public enum DamageType { Melee, Ranged, Charge, Enemy }
 

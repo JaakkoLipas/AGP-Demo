@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.Events;
 // using FMODUnity;
 
-namespace AG3958
+namespace AoV.Gameplay
 {
     [RequireComponent(typeof(Collider2D))]
     public class InteractButton : MonoBehaviour

@@ -1,15 +1,14 @@
-using UnityEngine;
 using UnityEditor;
 
 #if UNITY_EDITOR
 
-namespace AG3958
+namespace AoV.Editor
 {
 	/// <summary>
 	/// Use the default IMGUI Inspector for serialized types that are broken in EditorAttributes
 	/// </summary>
-	[CustomEditor(typeof(CheckpointSystem))]
-	public class UseDefaultInspector : Editor
+	[CustomEditor(typeof(AoV.System.CheckpointSystem))]
+	public class UseDefaultInspector : UnityEditor.Editor
 	{
 		public override void OnInspectorGUI()
 		{

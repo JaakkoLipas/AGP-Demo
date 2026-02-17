@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace AG3958
+namespace AoV.Gameplay
 {
     // BreakType and DamageType in Projectile must have the same IDs
     public enum BreakType
@@ -21,8 +21,8 @@ namespace AG3958
     {
         [Header("Block Attributes")]
         [SerializeField] private List<BreakType> _breakTypes;
-        [Tooltip("Break Time should stay 0 unless using Enemy and/or Player Break")]
-        [SerializeField] private float _breakTime = 0f;
+        [Tooltip("Break Time should stay 0.1 unless using Enemy and/or Player Break")]
+        [SerializeField] private float _breakTime = 0.1f;
         [SerializeField] private bool _isCascading;
         [SerializeField] private bool _isRegenerating;
         [SerializeField] private float _regenTime;

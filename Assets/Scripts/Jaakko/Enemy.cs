@@ -1,8 +1,9 @@
 using UnityEngine;
 using System.Collections.Generic;
 using Unity.Cinemachine;
+using AoV.Player;
 
-namespace AG3958
+namespace AoV.Gameplay
 {
     [RequireComponent(typeof(Rigidbody2D))]
     public class Enemy : MonoBehaviour

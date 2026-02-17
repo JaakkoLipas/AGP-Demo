@@ -1,13 +1,13 @@
 using System;
 using UnityEngine;
 
-namespace AG3958
+namespace AoV.System
 {
     public class GameStateManager : MonoBehaviour
     {
         public static event Action WinGameEvent;
 
-        [SerializeField] private Enemy _targetEnemy;
+        [SerializeField] private Gameplay.Enemy _targetEnemy;
         private bool _winInvoked;
 
         // in full production version a lot more stuff, passthroughs to dialogue system for flow control through Ink

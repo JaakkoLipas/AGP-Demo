@@ -2,7 +2,7 @@ using UnityEngine;
 using EditorAttributes;
 using Unity.Cinemachine;
 
-namespace AG3958
+namespace AoV.Gameplay
 {
     [RequireComponent(typeof(Collider2D),typeof(SpriteRenderer))]
     public class PhysicsButton : MonoBehaviour

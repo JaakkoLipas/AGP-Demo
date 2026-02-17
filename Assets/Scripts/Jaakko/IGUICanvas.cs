@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace AG3958
+namespace AoV
 {
     public class IGUICanvas : MonoBehaviour
     {

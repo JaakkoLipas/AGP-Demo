@@ -1,7 +1,8 @@
 using System;
+using Unity.Cinemachine;
 using UnityEngine;
 
-namespace AG3958
+namespace AoV.Gameplay
 {
     [Serializable, RequireComponent (typeof(Collider2D))]
     public class HealthCollectable : MonoBehaviour, ICollectable
@@ -10,8 +11,10 @@ namespace AG3958
         public ICollectable.CollectableType CType { get { return _cType; } }
         [SerializeField] private float _value;
         public float CValue { get { return _value; } }
+        [SerializeField, TagField] private string _collectorTag;
+        public string CollectorTag { get { return _collectorTag; } }
 
-        [Tooltip("Does collecting the item invoke player iframes?")]
+        [Tooltip("Does collecting the item invoke iframes?")]
         [SerializeField] private bool _invokesIFrames = false;
 
         public void OnTriggerEnter2D(Collider2D collision)
@@ -22,7 +25,7 @@ namespace AG3958
 
         public void CollectObject()
         {
-            PlayerCore.HealthChangeEvent?.Invoke(_value, _invokesIFrames);
+            Player.PlayerCore.HealthChangeEvent?.Invoke(_value, _invokesIFrames);
             Destroy(this.gameObject);
         }
     }

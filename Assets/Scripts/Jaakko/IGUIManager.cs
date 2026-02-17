@@ -3,9 +3,9 @@ using System;
 using UnityEngine;
 using Cysharp.Text;
 
-namespace AG3958
+namespace AoV.Player
 {
-    public class UIManager : MonoBehaviour
+    public class IGUIManager : MonoBehaviour
     {
         [SerializeField] private TMP_Text _pointsText;
         [SerializeField] private TMP_Text _healthText;
@@ -21,7 +21,7 @@ namespace AG3958
             PlayerCore.ManaChangeEvent += UpdateMana;
             PlayerCore.PlayerDeathEvent += OnPlayerDeath;
             PlayerCore.PlayerRespawnEvent += OnPlayerRespawn;
-            GameStateManager.WinGameEvent += OnWinGame;
+            System.GameStateManager.WinGameEvent += OnWinGame;
         }
 
         private void Start()
@@ -92,7 +92,7 @@ namespace AG3958
             PlayerCore.ManaChangeEvent -= UpdateMana;
             PlayerCore.PlayerDeathEvent -= OnPlayerDeath;
             PlayerCore.PlayerRespawnEvent -= OnPlayerRespawn;
-            GameStateManager.WinGameEvent -= OnWinGame;
+            System.GameStateManager.WinGameEvent -= OnWinGame;
         }
     }
 }

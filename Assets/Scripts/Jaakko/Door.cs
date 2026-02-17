@@ -1,7 +1,7 @@
 using UnityEngine;
 using EditorAttributes;
 
-namespace AG3958
+namespace AoV.Gameplay
 {
     [RequireComponent (typeof(Collider2D))]
     public class Door : MonoBehaviour, IPhysicsInteractable

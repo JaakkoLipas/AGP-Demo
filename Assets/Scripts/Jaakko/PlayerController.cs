@@ -7,7 +7,7 @@ using Physics2D = Nomnom.RaycastVisualization.VisualPhysics2D;
 using Physics2D = UnityEngine.Physics2D;
 #endif
 
-namespace AG3958
+namespace AoV.Player
 {
     /// <summary>
     /// Player control and movement script.
