@@ -6,9 +6,9 @@ namespace AoV.Player
     /// <summary>
     /// Player control script. Required for PlayerController.
     /// </summary>
-    public class PlayerInput : MonoBehaviour
+    public class PlayerControls : MonoBehaviour
     {
-        [SerializeField] private UnityEngine.InputSystem.PlayerInput _playerInputs;
+        [SerializeField] private PlayerInput _playerInputs;
 
         public float HorizontalAxis { get; private set; }
         public float VerticalAxis { get; private set; }

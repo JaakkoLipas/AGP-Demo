@@ -26,7 +26,7 @@ namespace AoV.Player
         [SerializeField] private int _iFrames = 100;
         private bool _invincible = false;
         public bool IsInvincible { get { return _invincible; } }
-        private readonly WaitForFixedUpdate _waitForFixedUpdate;
+        private readonly WaitForFixedUpdate _waitForFixedUpdate = new WaitForFixedUpdate();
 
         [SerializeField, Clamp(1, Single.MaxValue)] private float _maxMana;
         public float MaxMana {  get { return _maxMana; } }
