@@ -5,7 +5,7 @@ using Cysharp.Text;
 
 namespace AoV.Player
 {
-    public class IGUIManager : MonoBehaviour
+    public class GameUIManager : MonoBehaviour
     {
         [SerializeField] private TMP_Text _pointsText;
         [SerializeField] private TMP_Text _healthText;
@@ -21,7 +21,7 @@ namespace AoV.Player
             PlayerCore.ManaChangeEvent += UpdateMana;
             PlayerCore.PlayerDeathEvent += OnPlayerDeath;
             PlayerCore.PlayerRespawnEvent += OnPlayerRespawn;
-            System.GameStateManager.WinGameEvent += OnWinGame;
+            AoV.System.GameStateManager.WinGameEvent += OnWinGame;
         }
 
         private void Start()

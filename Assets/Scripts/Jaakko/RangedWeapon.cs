@@ -7,7 +7,7 @@ namespace AoV.Gameplay
     {
         [SerializeField] private GameObject _projectilePrefab;
         [SerializeField] private float _cooldown;
-        private float _cooldownTimer;
+        private float _cooldownTimer = 0.0f;
         [SerializeField] private float _launchForce;
 
         [SerializeField] private bool _isPlayerWeapon;
