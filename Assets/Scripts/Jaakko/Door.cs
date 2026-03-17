@@ -6,7 +6,8 @@ namespace AoV.Gameplay
     [RequireComponent (typeof(Collider2D))]
     public class Door : MonoBehaviour, IPhysicsInteractable
     {
-        [SerializeField] private PhysicsButton _btn;
+        [SerializeField] private GameObject _interactorObject;
+        private IPhysicsInteractor _interactor;
         [SerializeField] private Transform _target;
         private Transform _transform;
         [SerializeField] private float _moveSpeed = 1f;
@@ -18,6 +19,11 @@ namespace AoV.Gameplay
         {
             _transform = transform;
             _originalPosition = _transform.position;
+            if (_interactorObject.TryGetComponent<IPhysicsInteractor>(out IPhysicsInteractor interactor))
+            {
+                _interactor = interactor;
+            }
+            else Debug.LogWarning("GameObject " + _interactorObject + " attached to " + this.gameObject + " does not have an IPhysicsInteractor component!");
         }
 
         private void Update()
@@ -33,7 +39,7 @@ namespace AoV.Gameplay
                 {
                     _moving = false;
                     _target.position = _originalPosition;
-                    if (_btn != null && !_btn.IsOneShot) _btn.Reenable();
+                    if (_interactor != null && !_interactor.IsOneShot) _interactor.ToggleEnabled();
                 }
             }
         }

@@ -7,8 +7,8 @@ namespace AoV.Gameplay
     [Serializable, RequireComponent (typeof(Collider2D))]
     public class HealthCollectable : MonoBehaviour, ICollectable
     {
-        private readonly ICollectable.CollectableType _cType = ICollectable.CollectableType.Health;
-        public ICollectable.CollectableType CType { get { return _cType; } }
+        private readonly CollectableType _cType = CollectableType.Health;
+        public CollectableType CType { get { return _cType; } }
         [SerializeField] private float _value;
         public float CValue { get { return _value; } }
         [SerializeField, TagField] private string _collectorTag;
@@ -19,7 +19,7 @@ namespace AoV.Gameplay
 
         public void OnTriggerEnter2D(Collider2D collision)
         {
-            if (collision.CompareTag("Player")) CollectObject();
+            if (collision.CompareTag(_collectorTag)) CollectObject();
             else return;
         }
 

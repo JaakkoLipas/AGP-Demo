@@ -5,7 +5,7 @@ using Unity.Cinemachine;
 namespace AoV.Gameplay
 {
     [RequireComponent(typeof(Collider2D),typeof(SpriteRenderer))]
-    public class PhysicsButton : MonoBehaviour
+    public class PhysicsButton : MonoBehaviour, IPhysicsInteractor
     {
         [SerializeField] private GameObject _editorConnectedInteractable;
         private IPhysicsInteractable _connectedInteractable;
@@ -32,9 +32,9 @@ namespace AoV.Gameplay
             else Debug.LogWarning("GameObject " + _editorConnectedInteractable + " attached to " + this.gameObject + " does not have an IPhysicsInteractable component!");
         }
 
-        private void OnTriggerEnter2D(Collider2D collision)
+        public void OnTriggerEnter2D(Collider2D other)
         {
-            if (_isEnabled && (collision.CompareTag(_playerTag) || (_projectileUsable && collision.CompareTag(_playerProjTag))))
+            if (_isEnabled && (other.CompareTag(_playerTag) || (_projectileUsable && other.CompareTag(_playerProjTag))))
             {
                 _connectedInteractable.Interact();
                 _isEnabled = false;
@@ -42,10 +42,11 @@ namespace AoV.Gameplay
             }
         }
 
-        public void Reenable()
+        public void ToggleEnabled()
         {
-            _isEnabled = true;
-            _buttonSpriteR.sprite = _buttonSpriteEnabled;
+            _isEnabled = !_isEnabled;
+            if (_buttonSpriteR.sprite == _buttonSpriteEnabled) _buttonSpriteR.sprite = _buttonSpriteDisabled;
+            else _buttonSpriteR.sprite = _buttonSpriteEnabled;
         }
     }
 

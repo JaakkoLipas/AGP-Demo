@@ -2,9 +2,10 @@ using UnityEngine;
 
 namespace AoV.Gameplay
 {
-	public interface ICollectable
+    public enum CollectableType { Points, Health, Mana, Major }
+
+    public interface ICollectable
 	{
-		enum CollectableType { Points, Health, Mana, Major }
 		CollectableType CType { get; }
 		float CValue { get; }
 		string CollectorTag { get; }
