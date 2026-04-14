@@ -247,14 +247,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c39dfd1ca9d646459be459dd37a3e49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <MaxHealth>k__BackingField: 5
+  <MaxHealth>k__BackingField: 2
   _scoreValue: 1
   _isBoss: 0
   _doesContactDamage: 1
   _contactDamage: 10
   _contactInvokesIFrames: 1
-  _knockbackEnabled: 1
-  _knockbackStrength: 2
   <EffectiveDamageTypes>k__BackingField: 000000000100000002000000
   _destroyDelay: 0
   _healthDropChance: 10

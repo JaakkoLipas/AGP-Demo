@@ -1769,7 +1769,7 @@ Camera:
     x: 0
     y: 0
     width: 1
-    height: 0.9994834
+    height: 1
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
@@ -100469,17 +100469,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8703782652223183505, guid: 6869806c749a239448b4ac4e947b4182, type: 3}
   m_PrefabInstance: {fileID: 3549872646586718349}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &828720639 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4598869667713907463, guid: 6869806c749a239448b4ac4e947b4182, type: 3}
-  m_PrefabInstance: {fileID: 3549872646586718349}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 51722439b9f79e947b399c005df908c8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &861277793
 GameObject:
   m_ObjectHideFlags: 0
@@ -101881,38 +101870,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 127862041136390524, guid: 9062d3f1e55dc21489d741f27cd94ef4, type: 3}
-      propertyPath: _projSpeed
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 127862041136390524, guid: 9062d3f1e55dc21489d741f27cd94ef4, type: 3}
-      propertyPath: _fireCooldown
-      value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 127862041136390524, guid: 9062d3f1e55dc21489d741f27cd94ef4, type: 3}
-      propertyPath: _meleeCooldown
-      value: 0.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 127862041136390524, guid: 9062d3f1e55dc21489d741f27cd94ef4, type: 3}
-      propertyPath: _weakKnockbackStunTime
-      value: 0.33
-      objectReference: {fileID: 0}
-    - target: {fileID: 127862041136390524, guid: 9062d3f1e55dc21489d741f27cd94ef4, type: 3}
-      propertyPath: _strongKnockbackStunTime
-      value: 0.67
-      objectReference: {fileID: 0}
-    - target: {fileID: 784582341538922920, guid: 9062d3f1e55dc21489d741f27cd94ef4, type: 3}
-      propertyPath: m_NormalizedViewPortRect.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 784582341538922920, guid: 9062d3f1e55dc21489d741f27cd94ef4, type: 3}
-      propertyPath: m_NormalizedViewPortRect.width
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 784582341538922920, guid: 9062d3f1e55dc21489d741f27cd94ef4, type: 3}
-      propertyPath: m_NormalizedViewPortRect.height
-      value: 0.9994834
-      objectReference: {fileID: 0}
     - target: {fileID: 1618266937033569648, guid: 9062d3f1e55dc21489d741f27cd94ef4, type: 3}
       propertyPath: m_LocalPosition.x
       value: -9.97
@@ -101957,18 +101914,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 3245615972080340410, guid: 9062d3f1e55dc21489d741f27cd94ef4, type: 3}
-      propertyPath: _respawnTime
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 3245615972080340410, guid: 9062d3f1e55dc21489d741f27cd94ef4, type: 3}
-      propertyPath: _manaRegenSpeed
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3245615972080340410, guid: 9062d3f1e55dc21489d741f27cd94ef4, type: 3}
-      propertyPath: _initialCheckpoint
-      value: 
-      objectReference: {fileID: 828720639}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
