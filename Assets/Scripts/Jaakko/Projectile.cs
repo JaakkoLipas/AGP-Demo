@@ -1,11 +1,7 @@
-using Unity.Cinemachine;
 using UnityEngine;
-using AoV.Player;
 
 namespace AoV.Gameplay
 {
-    public enum DamageType { Melee, Ranged, Charge, Enemy }
-
     public class Projectile : MonoBehaviour
     {
         // class is agnostic to projectile source, determined by prefab tag
@@ -13,53 +9,28 @@ namespace AoV.Gameplay
         public DamageType ProjectileDamageType;
         [SerializeField] private float _damage;
         [SerializeField] private bool _invokesIFrames;
+        [Tooltip("Projectile lifetime in seconds")]
         [SerializeField] private float _lifetime;
-        [Tooltip("If true, colliding does not destroy the projectile")]
+        [Tooltip("If false, colliding does not destroy the projectile and destruction is solely determined by lifetime")]
         [SerializeField] private bool _destroyedByCollision = true;
-        [Header("Knockback")]
-        [SerializeField] private float _knockbackStrength;
-        private Vector2 _knockbackForceMultiplier;
-        [Tooltip("Whether the impact resets momentum before applying knockback")]
-        [SerializeField] private bool _isHeavyKnockback;
-
-        [Header("Tag Compares")]
-        [SerializeField, TagField] private string _enemyTag;
-        [SerializeField, TagField] private string _playerTag;
 
         private void Awake()
         {
-            _knockbackForceMultiplier = new Vector2(_knockbackStrength, _knockbackStrength);
             Destroy(this.gameObject, _lifetime);
         }
 
         private void OnCollisionEnter2D(Collision2D coll)
         {
-            if (coll.collider.CompareTag(_enemyTag) && ProjectileDamageType != DamageType.Enemy)
+            if (coll.collider.TryGetComponent<IDamageable>(out IDamageable damageable))
             {
-                Enemy e = coll.gameObject.GetComponent<Enemy>();
-                if (e.EffectiveDamageTypes.Contains(ProjectileDamageType))
-                { 
-                    // TODO: instantiate vfx/sfx for effective projectile impact
-                    e.TakeDamage(_damage);
-                }
-                else 
-                { 
-                    // TODO: instantiate vfx/sfx for ineffective projectile impact
-                }
-            }
-            if (coll.collider.CompareTag(_playerTag) && ProjectileDamageType == DamageType.Enemy)
-            {
-                PlayerController pcon = coll.gameObject.GetComponent<PlayerController>();
-                PlayerCore pcor = coll.gameObject.GetComponentInParent<PlayerCore>();
-                if (!pcor.IsInvincible)
+                if (damageable.EffectiveDamageTypes.Contains(ProjectileDamageType))
                 {
-                    if (_knockbackStrength > 0)
-                    {
-                        Vector2 kbVector = (Vector2)coll.transform.position - (Vector2)this.transform.position;
-                        kbVector.Scale(_knockbackForceMultiplier);
-                        pcon.Launch(kbVector, _isHeavyKnockback);
-                    }
-                    PlayerCore.HealthChangeEvent?.Invoke(-_damage, _invokesIFrames);
+                    // TODO: effective VFX/SFX calls
+                    damageable.TakeDamage(_damage, _invokesIFrames);
+                }
+                else
+                {
+                    // TODO: ineffective VFX/SFX calls
                 }
             }
 
@@ -68,7 +39,7 @@ namespace AoV.Gameplay
 
         //private void OnDestroy()
         //{
-        // TODO: instantiate vfx/sfx for generic projectile destruction
+        // TODO: generic projectile destruction VFX/SFX
         //}
     } 
 }

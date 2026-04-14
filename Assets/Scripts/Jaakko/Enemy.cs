@@ -6,11 +6,13 @@ using AoV.Player;
 namespace AoV.Gameplay
 {
     [RequireComponent(typeof(Rigidbody2D))]
-    public class Enemy : MonoBehaviour
+    public class Enemy : MonoBehaviour, IDamageable
     {
         [Header("Stats")]
-        [SerializeField] private float _maxHealth = 1.0f;
-        private float _currentHealth;
+        [field: SerializeField] public float MaxHealth { get; set; }
+        public float CurrentHealth { get; set; }
+        public float InvincibilityFrames { get; set; }
+        public bool IsInvincible { get; set; }
         [SerializeField] private float _scoreValue = 1.0f;
         [SerializeField] private bool _isBoss = false;
 
@@ -18,12 +20,9 @@ namespace AoV.Gameplay
         [SerializeField] private bool _doesContactDamage = true;
         [SerializeField, Tooltip("Field is unused if contact damage is turned off")] private float _contactDamage = 1.0f;
         [SerializeField] private bool _contactInvokesIFrames = true;
-        [SerializeField] private bool _knockbackEnabled = true;
-        [SerializeField] private float _knockbackStrength = 1.0f;
-        private Vector2 _knockbackForceMultiplier;
 
         [Tooltip("List of projectile types that can deal damage")]
-        public List<DamageType> EffectiveDamageTypes;
+        [field: SerializeField] public List<DamageType> EffectiveDamageTypes { get; set; }
 
         [Header("On Death")]
         [Tooltip("Delay to destroy the object, for cinematic purposes")]
@@ -45,9 +44,9 @@ namespace AoV.Gameplay
 
         private void Awake()
         {
-            _knockbackForceMultiplier = new Vector2(_knockbackStrength, _knockbackStrength);
             _healthDrop = _healthDropPrefab.GetComponent<HealthCollectable>();
-            _currentHealth = _maxHealth;
+            CurrentHealth = MaxHealth;
+            IsInvincible = false;
         }
 
         private void OnCollisionEnter2D(Collision2D other)
@@ -55,38 +54,36 @@ namespace AoV.Gameplay
             if (other.collider.CompareTag(_speedTag))
             {
                 if (!_isBoss) Kill(true);
-                else TakeDamage(_maxHealth * 0.5f);
+                else TakeDamage(MaxHealth * 0.5f, false);
             }
-            if (other.collider.CompareTag(_playerTag))
+            if (other.collider.TryGetComponent<IDamageable>(out IDamageable damageable))
             {
-                PlayerController pcon = other.gameObject.GetComponent<PlayerController>();
-                PlayerCore pcor = other.gameObject.GetComponentInParent<PlayerCore>();
-                if (_doesContactDamage && !pcor.IsInvincible)
+                if (damageable.EffectiveDamageTypes.Contains(DamageType.Enemy))
                 {
-                    if (_knockbackEnabled)
-                    {
-                        Vector2 kbVector = (Vector2)other.transform.position - (Vector2)transform.position;
-                        kbVector.Scale(_knockbackForceMultiplier);
-                        pcon.Launch(kbVector * _knockbackStrength, true);
-                    }
-                    PlayerCore.HealthChangeEvent?.Invoke(-_contactDamage, _contactInvokesIFrames);
+                    damageable.TakeDamage(_contactDamage, _contactInvokesIFrames);
                 }
             }
         }
 
-        public void TakeDamage(float damage) 
+        public void TakeDamage(float damage, bool useIFrames) 
         {
-            _currentHealth -= damage;
-            if (_currentHealth <= 0) { Kill(false); }
-            else { } // TODO: enemy-specific damaged vfx/sfx
+            if (!IsInvincible)
+            {
+                CurrentHealth -= damage;
+                if (CurrentHealth <= 0) { Kill(false); }
+                else 
+                {
+                    // TODO: enemy-specific damaged VFX/SFX calls
+                }
+            }
         }
 
-        private void Kill(bool isInstant)
+        public void Kill(bool isInstant)
         {
             int RNGResult;
             if (isInstant)
             {
-                // TODO: instant (speed) kill vfx/sfx
+                // TODO: instant (speed) kill VFX/SFX calls
                 for (int i = 0; i < _healthDropCount; i++)
                 {
                     RNGResult = Random.Range(0, 100);
@@ -99,7 +96,7 @@ namespace AoV.Gameplay
             else 
             {
                 Vector2 pickupSpawn = new Vector2();
-                // TODO: normal kill vfx/sfx
+                // TODO: normal kill VFX/SFX calls
                 for (int i = 0; i < _healthDropCount; i++)
                 {
                     RNGResult = Random.Range(0, 100);

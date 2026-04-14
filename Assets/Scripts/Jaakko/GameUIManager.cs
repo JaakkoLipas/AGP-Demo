@@ -63,14 +63,14 @@ namespace AoV.Player
             sb.Append("Score: " + _playerCore.PlayerPoints);
             _pointsText.SetText(sb);
             sb.Clear();
-            sb.Append("HP: " + _playerCore.PlayerHealth);
+            sb.Append("HP: " + _playerCore.CurrentHealth);
             _healthText.SetText(sb);
             sb.Clear();
             sb.Append("MP: " + _playerCore.PlayerMana);
             _manaText.SetText(sb);
         }
 
-        private void OnPlayerDeath()
+        private void OnPlayerDeath(bool isInstant)
         {
             _loseText.SetActive(true);
         }

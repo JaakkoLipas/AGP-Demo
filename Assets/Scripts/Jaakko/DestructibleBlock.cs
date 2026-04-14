@@ -4,23 +4,11 @@ using UnityEngine;
 
 namespace AoV.Gameplay
 {
-    // BreakType and DamageType in Projectile must have the same IDs
-    public enum BreakType
-    {
-        Melee,
-        Ranged,
-        Charge,
-        Enemy,
-        Player,
-        Speed,
-        Indestructible
-    }
-
     [RequireComponent(typeof(Collider2D))]
-    public class DestructibleBlock : MonoBehaviour
+    public class DestructibleBlock : MonoBehaviour, IBreakable
     {
         [Header("Block Attributes")]
-        [SerializeField] private List<BreakType> _breakTypes;
+        public List<BreakType> BreakTypes { get; }
         [Tooltip("Break Time should stay 0.1 unless using Enemy and/or Player Break")]
         [SerializeField] private float _breakTime = 0.1f;
         [SerializeField] private bool _isCascading;
@@ -56,15 +44,15 @@ namespace AoV.Gameplay
         private void OnCollisionEnter2D(Collision2D coll)
         {
             if (_breakActive) return;
-            if ((coll.collider.CompareTag("Enemy") || coll.collider.CompareTag("EnemyProjectile")) && _breakTypes.Contains(BreakType.Enemy))
+            if ((coll.collider.CompareTag("Enemy") || coll.collider.CompareTag("EnemyProjectile")) && BreakTypes.Contains(BreakType.Enemy))
                 { StartCoroutine(Break()); return; }
-            else if (coll.collider.CompareTag("Speed") && _breakTypes.Contains(BreakType.Speed))
+            else if (coll.collider.CompareTag("Speed") && BreakTypes.Contains(BreakType.Speed))
                 { StartCoroutine(Break()); return; }
-            else if (coll.collider.CompareTag("Player") && _breakTypes.Contains(BreakType.Player))
+            else if (coll.collider.CompareTag("Player") && BreakTypes.Contains(BreakType.Player))
                 { StartCoroutine(Break()); return; }
             else if (coll.collider.CompareTag("PlayerProjectile"))
             {
-                if (_breakTypes.Contains((BreakType)coll.gameObject.GetComponent<Projectile>().ProjectileDamageType))
+                if (BreakTypes.Contains((BreakType)coll.gameObject.GetComponent<Projectile>().ProjectileDamageType))
                 { StartCoroutine(Break()); return; }
                 else _fgRenderer.color = _transparentColor;
             }

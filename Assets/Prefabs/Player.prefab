@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1618266937033569648}
-  - component: {fileID: 3245615972080340410}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -33,33 +32,6 @@ Transform:
   - {fileID: 5330219280637234379}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3245615972080340410
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2186000261291522036}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 55c3a198a57d4ca49974829da7a87b56, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _maxHealth: 100
-  _iFrames: 100
-  _maxMana: 100
-  _manaRegenSpeed: 1
-  _manaRegenTime: 3
-  _points: 0
-  _respawnTime: 5
-  _hasWeapon: 1
-  _hasMagic: 1
-  _hasWallHang: 1
-  _hasCharge: 0
-  _hasVolcanicEruption: 1
-  _hasSpeedBooster: 1
-  _initialCheckpoint: {fileID: 0}
-  _previousCheckpoint: {fileID: 0}
 --- !u!1 &2450429204724687171
 GameObject:
   m_ObjectHideFlags: 0
@@ -72,6 +44,7 @@ GameObject:
   - component: {fileID: 7341022628178161932}
   - component: {fileID: 2627629395240431894}
   - component: {fileID: 127862041136390524}
+  - component: {fileID: 3898556271152347288}
   m_Layer: 3
   m_Name: Player Collider
   m_TagString: Player
@@ -195,14 +168,14 @@ MonoBehaviour:
   _jumpPower: 8
   _coyoteDuration: 0.2
   _wallSlideFriction: 2
-  _weakKnockbackStunTime: 0.5
-  _strongKnockbackStunTime: 1.5
+  _weakKnockbackStunTime: 0.33
+  _strongKnockbackStunTime: 0.67
   _meleeProjectilePrefab: {fileID: 5345780579720366798, guid: 54b54e661d486014f861e454542e92a2, type: 3}
-  _meleeCooldown: 0.5
+  _meleeCooldown: 0.2
   _fireProjectilePrefab: {fileID: 5690700819704440087, guid: ad712d5f0c9ea21429e9b0f3856cf13b, type: 3}
   _fireCost: 10
-  _fireCooldown: 1.5
-  _projSpeed: 5
+  _fireCooldown: 0.1
+  _projSpeed: 15
   _chargeProjectilePrefab: {fileID: 0}
   _chargeTime: 2.5
   _chargeCost: 2
@@ -218,6 +191,34 @@ MonoBehaviour:
   _eruptionChargeTime: 2.5
   _eruptionGraceTime: 0.25
   _eruptionActiveColor: {r: 1, g: 0.3, b: 0, a: 1}
+--- !u!114 &3898556271152347288
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2450429204724687171}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55c3a198a57d4ca49974829da7a87b56, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <EffectiveDamageTypes>k__BackingField: 03000000
+  <MaxHealth>k__BackingField: 100
+  <InvincibilityFrames>k__BackingField: 100
+  _maxMana: 100
+  _manaRegenSpeed: 1
+  _manaRegenTime: 3
+  _points: 0
+  _respawnTime: 5
+  _hasWeapon: 1
+  _hasMagic: 1
+  _hasWallHang: 1
+  _hasCharge: 0
+  _hasVolcanicEruption: 1
+  _hasSpeedBooster: 1
+  _initialCheckpoint: {fileID: 0}
+  _previousCheckpoint: {fileID: 0}
 --- !u!1 &4116385228394978955
 GameObject:
   m_ObjectHideFlags: 0

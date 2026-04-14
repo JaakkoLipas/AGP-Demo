@@ -4,28 +4,31 @@ using System;
 using System.Collections;
 using UnityEngine.SceneManagement;
 using AoV.System;
+using AoV.Gameplay;
+using System.Collections.Generic;
 
 namespace AoV.Player
 {
+    /// <summary>
+    /// Player core component. Handles everything related to the player's basic stats, including triggering failstate and respawning.
+    /// </summary>
     [Serializable]
-    public class PlayerCore : MonoBehaviour
+    public class PlayerCore : MonoBehaviour, IDamageable
     {
         public static Action<float, bool> HealthChangeEvent;
         public static Action<float> ManaChangeEvent;
         public static Action<float> PointChangeEvent;
-        public static event Action PlayerDeathEvent;
+        public static event Action<bool> PlayerDeathEvent;
         public static event Action PlayerRespawnEvent;
 
         [Header("Basic Stats")]
-        [SerializeField, Clamp(1, Single.MaxValue)] private float _maxHealth;
-        public float MaxHealth { get { return _maxHealth; } }
-        private float _currentHealth;
-        public float PlayerHealth { get { return _currentHealth; } }
+        [field: SerializeField] public List<DamageType> EffectiveDamageTypes { get; set; }
+        [field: SerializeField, Clamp(1, Single.MaxValue)] public float MaxHealth { get; set; }
+        public float CurrentHealth { get; set; }
 
         [Tooltip("Invincibility frames (based on Fixed Update framerate)")]
-        [SerializeField] private int _iFrames = 100;
-        private bool _invincible = false;
-        public bool IsInvincible { get { return _invincible; } }
+        [field: SerializeField] public float InvincibilityFrames { get; set; }
+        public bool IsInvincible { get; set; }
         private readonly WaitForFixedUpdate _waitForFixedUpdate = new WaitForFixedUpdate();
 
         [SerializeField, Clamp(1, Single.MaxValue)] private float _maxMana;
@@ -74,14 +77,15 @@ namespace AoV.Player
 
         private void Awake()
         {
-            _currentHealth = _maxHealth;
+            CurrentHealth = MaxHealth;
+            IsInvincible = false;
             _currentMana = _maxMana;
             _previousCheckpoint = _initialCheckpoint;
 
             HealthChangeEvent += OnHealthChanged;
             ManaChangeEvent += OnManaChanged;
             PointChangeEvent += OnPointsChanged;
-            PlayerDeathEvent += Die;
+            PlayerDeathEvent += Kill;
             PlayerRespawnEvent += Respawn;
         }
 
@@ -92,16 +96,24 @@ namespace AoV.Player
                 { StartCoroutine(ManaRecharge()); }
         }
 
+        public void TakeDamage(float damage, bool useIFrames)
+        {
+            if (!IsInvincible)
+            {
+                HealthChangeEvent?.Invoke(-damage, useIFrames);
+            }
+        }
+
         private void OnHealthChanged(float value, bool useIFrames)
         {
-            if (_currentHealth + value > _maxHealth) { _currentHealth = _maxHealth; }
-            else if (_currentHealth + value <= 0)
+            if (CurrentHealth + value > MaxHealth) { CurrentHealth = MaxHealth; }
+            else if (CurrentHealth + value <= 0)
             { 
-                _currentHealth = 0;
-                PlayerDeathEvent?.Invoke();
+                CurrentHealth = 0;
+                PlayerDeathEvent?.Invoke(false);
             }
-            else { _currentHealth += value; }
-            if (useIFrames) StartCoroutine(InvincibilityFrames());
+            else { CurrentHealth += value; }
+            if (useIFrames) StartCoroutine(InvincibilityTime());
         }
 
         private void OnManaChanged(float value)
@@ -140,16 +152,16 @@ namespace AoV.Player
             _manaRegenActive = false;
         }
 
-        private IEnumerator InvincibilityFrames()
+        private IEnumerator InvincibilityTime()
         {
-            _invincible = true;
+            IsInvincible = true;
             int iterator = 0;
-            while (iterator < _iFrames)
+            while (iterator < InvincibilityFrames)
             {
                 iterator++;
                 yield return _waitForFixedUpdate;
             }
-            _invincible = false;
+            IsInvincible = false;
         }
 
         public void SetCheckpoint(Checkpoint point)
@@ -157,9 +169,12 @@ namespace AoV.Player
             _previousCheckpoint = point;
         }
 
-        private void Die()
+        public void Kill(bool isInstant)
         {
-            transform.GetChild(0).gameObject.SetActive(false);
+            PlayerController pc = this.GetComponent<PlayerController>();
+            pc.enabled = false;
+            SpriteRenderer[] srs = this.GetComponentsInChildren<SpriteRenderer>();
+            foreach (SpriteRenderer sr in srs) sr.enabled = false;
             StartCoroutine(RespawnTimer());
         }
 
