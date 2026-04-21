@@ -15,6 +15,8 @@ namespace AoV.Player
     [Serializable]
     public class PlayerCore : MonoBehaviour, IDamageable
     {
+        #region Fields
+
         public static Action<float, bool> HealthChangeEvent;
         public static Action<float> ManaChangeEvent;
         public static Action<float> PointChangeEvent;
@@ -74,6 +76,8 @@ namespace AoV.Player
         [SerializeField, ReadOnly] private Checkpoint _previousCheckpoint;
         private Collider2D _pc;
         public Checkpoint PreviousCheckpoint { get { return _previousCheckpoint; } }
+        
+        #endregion
 
         private void Awake()
         {

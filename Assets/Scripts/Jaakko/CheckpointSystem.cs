@@ -13,6 +13,11 @@ namespace AoV.System
 
         private void Start()
         {
+            UpdateCheckpointList();
+        }
+
+        public void UpdateCheckpointList()
+        {
             _checkpointList = FindObjectsByType<Checkpoint>(FindObjectsSortMode.None);
             Array.Sort(_checkpointList);
         }

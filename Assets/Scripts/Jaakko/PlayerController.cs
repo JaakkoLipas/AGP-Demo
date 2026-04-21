@@ -154,7 +154,7 @@ namespace AoV.Player
         private void Awake()
         {
             _transform = transform;
-            _playerCore = GetComponentInParent<PlayerCore>();
+            _playerCore = GetComponent<PlayerCore>();
             _rb = GetComponent<Rigidbody2D>();
             _coll = GetComponent<Collider2D>();
             _envLayerMask = LayerMask.GetMask("Default");

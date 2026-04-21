@@ -3,6 +3,7 @@ using UnityEngine;
 using Unity.Cinemachine;
 using EditorAttributes;
 using AoV.Player;
+using UnityEngine.SceneManagement;
 
 namespace AoV.System
 {
@@ -16,6 +17,9 @@ namespace AoV.System
         private Vector2 _checkpointTarget;
         public Vector2 CheckpointTarget { get { return _checkpointTarget; } }
 
+        private Scene _parentScene;
+        public Scene ParentScene { get { return _parentScene; } }
+
         private PlayerCore _playerCore;
         [SerializeField, TagField] private string _playerTag;
 
@@ -23,6 +27,7 @@ namespace AoV.System
         {
             _checkpointTarget = transform.position;
             _playerCore = FindFirstObjectByType<PlayerCore>();
+            _parentScene = this.gameObject.scene;
         }
 
         private void OnTriggerEnter2D(Collider2D other)
