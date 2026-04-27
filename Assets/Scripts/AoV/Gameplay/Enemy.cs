@@ -40,7 +40,6 @@ namespace AoV.Gameplay
 
         [Header("Tag Compares")]
         [SerializeField, TagField] private string _speedTag;
-        [SerializeField, TagField] private string _playerTag;
 
         private void Awake()
         {
@@ -102,7 +101,7 @@ namespace AoV.Gameplay
                     RNGResult = Random.Range(0, 100);
                     if (RNGResult < _healthDropChance)
                     {
-                        pickupSpawn = Random.insideUnitCircle * ((transform.lossyScale.x + transform.lossyScale.y) / 2);
+                        pickupSpawn = (Vector2)transform.position + (Random.insideUnitCircle * ((transform.lossyScale.x + transform.lossyScale.y) / 2));
                         Instantiate(_healthDropPrefab, pickupSpawn, Quaternion.identity);
                     }
                 }
