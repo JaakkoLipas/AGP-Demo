@@ -2,11 +2,12 @@ using UnityEngine;
 using System.Collections.Generic;
 using Unity.Cinemachine;
 using AoV.Player;
+using AoV.System;
 
 namespace AoV.Gameplay
 {
     [RequireComponent(typeof(Rigidbody2D))]
-    public class Enemy : MonoBehaviour, IDamageable
+    public class Enemy : MonoBehaviour, IDamageable, IProgressionTrigger, IProgressionTriggered
     {
         [Header("Stats")]
         [field: SerializeField] public float MaxHealth { get; set; }
@@ -38,11 +39,30 @@ namespace AoV.Gameplay
         private bool _isDying = false;
         public bool IsDying { get { return _isDying; } }
 
+        [Header("Progression")]
+        [Tooltip("Use item flag restriction for spawning this enemy?")]
+        [SerializeField] private bool _itemSpawnRestriction = false;
+        [Tooltip("Item flag required to be true for this enemy to spawn")]
+        [SerializeField] private ItemProgressionFlags _itemFlag;
+        public ItemProgressionFlags ItemFlag { get { return _itemFlag; } }
+        [Tooltip("Use world flag restriction for spawning this enemy?")]
+        [SerializeField] private bool _worldSpawnRestriction = false;
+        [Tooltip("World flag required to be true for this enemy to spawn")] 
+        [SerializeField] private WorldProgressionFlags _worldFlag;
+        public WorldProgressionFlags WorldFlag { get {  return _worldFlag; } }
+        [Tooltip("Does this enemy set a flag on death?")]
+        [SerializeField] private bool _setsFlagOnDeath;
+        [Tooltip("Progression flag this enemy sets true on death")] 
+        [SerializeField] private WorldProgressionFlags _flagSet;
+        public WorldProgressionFlags FlagSet { get { return _flagSet; } }
+
         [Header("Tag Compares")]
         [SerializeField, TagField] private string _speedTag;
 
         private void Awake()
         {
+            if (_itemSpawnRestriction && !ProgressionDataManager.GetFlag(_itemFlag)) gameObject.SetActive(false);
+            if (_worldSpawnRestriction && !ProgressionDataManager.GetFlag(_worldFlag)) gameObject.SetActive(false);
             _healthDrop = _healthDropPrefab.GetComponent<HealthCollectable>();
             CurrentHealth = MaxHealth;
             IsInvincible = false;
@@ -108,7 +128,13 @@ namespace AoV.Gameplay
             }
             PlayerCore.PointChangeEvent?.Invoke(_scoreValue);
             _isDying = true;
+            if (_setsFlagOnDeath) CallSetFlag();
             Destroy(this.gameObject);
+        }
+
+        public void CallSetFlag()
+        {
+            ProgressionDataManager.SetFlag(_flagSet, true);
         }
     }
 }

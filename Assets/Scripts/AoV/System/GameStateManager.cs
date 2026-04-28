@@ -3,32 +3,54 @@ using UnityEngine;
 
 namespace AoV.System
 {
+    public enum GameState
+    {
+        Active,
+        Paused,
+        Failure,
+        Complete
+    }
+
     public class GameStateManager : MonoBehaviour
     {
-        public static event Action WinGameEvent;
+        private GameState _currentState;
+        public GameState CurrentState { get { return _currentState; } set { _currentState = value; GameStateChanged?.Invoke(); } }
 
-        [SerializeField] private Gameplay.Enemy _targetEnemy;
+        public static event Action GameStateChanged;
+        public static Action WinGameEvent;
+
+        [SerializeField] private WorldProgressionFlags _winConditionFlag;
+        private bool _winConditionState;
         private bool _winInvoked;
 
-        // in full production version a lot more stuff, passthroughs to dialogue system for flow control through Ink
+        // TODO: make the game states actually do stuff
 
         private void Awake()
         {
-            if (_targetEnemy == null) { Destroy(gameObject); }
+            CurrentState = GameState.Active;
+            ProgressionDataManager.FlagChangedEvent += CheckWinConState;
         }
 
         private void Update()
         {
-            if (!_winInvoked && (_targetEnemy == null || _targetEnemy.IsDying)) 
+            if (!_winInvoked && _winConditionState) 
             { 
+                CurrentState = GameState.Complete;
                 WinGameEvent?.Invoke(); 
                 _winInvoked = true;
             }
         }
 
+        private void CheckWinConState()
+        {
+            _winConditionState = ProgressionDataManager.GetFlag(_winConditionFlag);
+        }
+
         private void OnDestroy()
         {
+            GameStateChanged = null;
             WinGameEvent = null;
+            ProgressionDataManager.FlagChangedEvent -= CheckWinConState;
         }
     } 
 }

@@ -224,10 +224,10 @@ namespace AoV.Player
            
             if (Input.GetKeyDown(_meleeKey) && _playerCore.HasWeapon && _meleeCooldownTimer >= _meleeCooldown) { _meleeBuffer = true; }
            
-            if (Input.GetKeyUp(_fireKey) && (!_eruptionActive && !_eruptionReady))
+            if (Input.GetKeyUp(_fireKey) && _playerCore.HasCharge && (!_eruptionActive && !_eruptionReady))
             {
                 if (_chargeReady) { _chargeBuffer = true; }
-                else if (_fireCooldownTimer >= _fireCooldown && _playerCore.PlayerMana >= _fireCost) { _fireBuffer = true; }
+                else if (_playerCore.HasMagic && _fireCooldownTimer >= _fireCooldown && _playerCore.PlayerMana >= _fireCost) { _fireBuffer = true; }
                 _chargeActive = false;
             }
            

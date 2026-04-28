@@ -53,6 +53,7 @@ namespace AoV.Player
         private float _respawnTimer;
 
         [Header("Progression Checks")]
+        [SerializeField] private bool _setChecksByData;
         [SerializeField] private bool _hasWeapon;
         public bool HasWeapon { get { return _hasWeapon; } }
 
@@ -74,7 +75,6 @@ namespace AoV.Player
         [Header("Debugging")]
         [SerializeField] private Checkpoint _initialCheckpoint;
         [SerializeField, ReadOnly] private Checkpoint _previousCheckpoint;
-        private Collider2D _pc;
         public Checkpoint PreviousCheckpoint { get { return _previousCheckpoint; } }
         
         #endregion
@@ -85,12 +85,14 @@ namespace AoV.Player
             IsInvincible = false;
             _currentMana = _maxMana;
             _previousCheckpoint = _initialCheckpoint;
+            if (_setChecksByData) SetAbilityChecks();
 
             HealthChangeEvent += OnHealthChanged;
             ManaChangeEvent += OnManaChanged;
             PointChangeEvent += OnPointsChanged;
             PlayerDeathEvent += Kill;
             PlayerRespawnEvent += Respawn;
+            if (_setChecksByData) ProgressionDataManager.FlagChangedEvent += SetAbilityChecks;
         }
 
         private void Update()
@@ -98,6 +100,16 @@ namespace AoV.Player
             _manaRegenTimer += Time.deltaTime;
             if (_currentMana < _maxMana && !_manaRegenActive && _manaRegenTimer >= _manaRegenTime)
                 { StartCoroutine(ManaRecharge()); }
+        }
+
+        private void SetAbilityChecks()
+        {
+            _hasWeapon = ProgressionDataManager.GetFlag(ItemProgressionFlags.ABILITY_WEAPON);
+            _hasMagic = ProgressionDataManager.GetFlag(ItemProgressionFlags.ABILITY_MAGIC);
+            _hasCharge = ProgressionDataManager.GetFlag(ItemProgressionFlags.ABILITY_CHARGE);
+            _hasWallHang = ProgressionDataManager.GetFlag(ItemProgressionFlags.ABILITY_WALLHANG);
+            _hasSpeedBooster = ProgressionDataManager.GetFlag(ItemProgressionFlags.ABILITY_SPEED);
+            _hasVolcanicEruption = ProgressionDataManager.GetFlag(ItemProgressionFlags.ABILITY_ERUPTION);
         }
 
         public void TakeDamage(float damage, bool useIFrames)
@@ -195,7 +207,7 @@ namespace AoV.Player
 
         private void Respawn()
         {
-            SceneLoader.Instance.LoadSceneWithFade(SceneManager.GetActiveScene().buildIndex);
+            SceneLoader.Instance.LoadSceneWithFade(0);
         }
 
         private void OnDestroy()
@@ -205,6 +217,7 @@ namespace AoV.Player
             ManaChangeEvent = null;
             PlayerDeathEvent = null;
             PlayerRespawnEvent = null;
+            if (_setChecksByData) ProgressionDataManager.FlagChangedEvent -= SetAbilityChecks;
         }
     }
 }

@@ -1,4 +1,3 @@
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace AoV.System
@@ -17,15 +16,19 @@ namespace AoV.System
         public bool YAxisActive { get => _yAxisActive; set { _yAxisActive = value; } }
         [Tooltip("If true, this graphic is meant to scroll infinitely and will wrap around when reaching its sprite bounds")]
         public bool isInfiniteScrolling;
-        [Tooltip("Sets the magnitude of the parallax effect.\n0 = graphic moves 1:1 with camera\n1 = graphic does not move")]
-        public float parallaxEffectMagnitude;
+        [Tooltip("Sets the magnitude of the X-axis parallax effect.\n0 = graphic moves 1:1 with camera\n1 = graphic does not move")]
+        public float parallaxEffectMagnitudeX;
+        [Tooltip("Sets the magnitude of the Y-axis parallax effect.\n0 = graphic moves 1:1 with camera\n1 = graphic does not move")]
+        public float parallaxEffectMagnitudeY;
+        [Tooltip("Z-axis offset, must be set manually to display the graphic correctly")]
+        public float zOffset;
 
         private SpriteRenderer _graphicRenderer;
-        private float _startPositionX;
-        private float _movementX;
+        private float _anchorPositionX;
+        private float _graphicOffsetFromAnchorX;
         private float _spriteBoundsX;
-        private float _startPositionY;
-        private float _movementY;
+        private float _anchorPositionY;
+        private float _graphicOffsetFromAnchorY;
         private float _spriteBoundsY;
 
         private Transform _transform; // cache object transform to reduce native calls
@@ -36,8 +39,8 @@ namespace AoV.System
         {
             _transform = this.transform;
             _graphicRenderer = GetComponent<SpriteRenderer>();
-            _startPositionX = _anchorPoint.position.x;
-            _startPositionY = _anchorPoint.position.y;
+            _anchorPositionX = _anchorPoint.position.x;
+            _anchorPositionY = _anchorPoint.position.y;
             _spriteBoundsX = _graphicRenderer.bounds.size.x;
             _spriteBoundsY = _graphicRenderer.bounds.size.y;
             if (_anchorPoint == null)
@@ -53,22 +56,23 @@ namespace AoV.System
 
         private void Update()
         {
-            CalculateDistanceAndMovement();
-            MovePosition();
+            CalculateOffsets();
+            MoveGraphic();
             if (isInfiniteScrolling) WrapGraphic();
         }
 
-        private void CalculateDistanceAndMovement()
+        private void CalculateOffsets()
         {
-            _offsetPoint = _cameraPosition.position * parallaxEffectMagnitude;
-            if (!XAxisActive) _offsetPoint.x = _startPositionX;
-            if (!YAxisActive) _offsetPoint.y = _startPositionY;
-            _offsetPoint.z = -10f;
-            _movementX = _cameraPosition.position.x * (1 - parallaxEffectMagnitude);
-            _movementY = _cameraPosition.position.y * (1 - parallaxEffectMagnitude);
+            if (XAxisActive) _offsetPoint.x = _cameraPosition.position.x * parallaxEffectMagnitudeX;
+            else _offsetPoint.x = _anchorPositionX;
+            if (YAxisActive) _offsetPoint.y = _cameraPosition.position.y * parallaxEffectMagnitudeY;
+            else _offsetPoint.y = _anchorPositionY;
+            _offsetPoint.z = zOffset;
+            _graphicOffsetFromAnchorX = _cameraPosition.position.x * parallaxEffectMagnitudeX;
+            _graphicOffsetFromAnchorY = _cameraPosition.position.y * parallaxEffectMagnitudeY;
         }
 
-        private void MovePosition()
+        private void MoveGraphic()
         {
             _transform.position = _cameraPosition.position - _offsetPoint + _anchorOffset;
         }
@@ -77,20 +81,20 @@ namespace AoV.System
         {
             if (XAxisActive)
             {
-                if (_movementX > _startPositionX + _spriteBoundsX) { _startPositionX += _spriteBoundsX; ShiftAnchor(); }
-                else if (_movementX < _startPositionX - _spriteBoundsX) { _startPositionX -= _spriteBoundsX; ShiftAnchor(); }
+                if (_graphicOffsetFromAnchorX > _anchorPositionX + _spriteBoundsX) { _anchorPositionX += _spriteBoundsX; ShiftAnchor(); }
+                else if (_graphicOffsetFromAnchorX < _anchorPositionX - _spriteBoundsX) { _anchorPositionX -= _spriteBoundsX; ShiftAnchor(); }
             }
             if (YAxisActive)
             {
-                if (_movementY > _startPositionY + _spriteBoundsY) { _startPositionY += _spriteBoundsY; ShiftAnchor(); }
-                else if (_movementY < _startPositionY - _spriteBoundsY) { _startPositionY -= _spriteBoundsY; ShiftAnchor(); }
+                if (_graphicOffsetFromAnchorY > _anchorPositionY + _spriteBoundsY) { _anchorPositionY += _spriteBoundsY; ShiftAnchor(); }
+                else if (_graphicOffsetFromAnchorY < _anchorPositionY - _spriteBoundsY) { _anchorPositionY -= _spriteBoundsY; ShiftAnchor(); }
             }
         }
 
         private void ShiftAnchor()
         {
-            _anchorOffset.x = _startPositionX;
-            _anchorOffset.y = _startPositionY;
+            _anchorOffset.x = _anchorPositionX;
+            _anchorOffset.y = _anchorPositionY;
         }
     }
 }

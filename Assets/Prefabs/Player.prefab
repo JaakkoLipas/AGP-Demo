@@ -211,6 +211,7 @@ MonoBehaviour:
   _manaRegenTime: 3
   _points: 0
   _respawnTime: 5
+  _setChecksByData: 1
   _hasWeapon: 1
   _hasMagic: 1
   _hasWallHang: 1
